@@ -1,7 +1,7 @@
 const Ship = (length, horizontal = true) => {
 	// let shipLength = length;
-	let position = {};
-	let setPosition = (x, y) => {
+	let position = {}; 
+	const setPosition = (x, y) => {
 		if ((x + length >= 10 && horizontal) || (y + length >= 10 && !horizontal)) {
 			throw new Error('Position exceeds grid size');
 
@@ -10,6 +10,7 @@ const Ship = (length, horizontal = true) => {
             throw new Error('Cannot set position after it has been initialized');
         } 
         else {
+            position['origin'] = {x,y};
 			for (let i = 0; i < length; i++) {
 				position[`${x}${y}`] = false;
 				x += 1 && horizontal;
@@ -18,6 +19,13 @@ const Ship = (length, horizontal = true) => {
             return true;
 		}
 	};
+    const getOrigin = () => {
+        if (position.hasOwnProperty('origin')){
+            return position['origin'];
+        }else{
+            throw new Error('Position has not been set');
+        }
+    }
 	const hit = (x, y) => {
 		if (position.hasOwnProperty(`${x}${y}`)) {
 			position[`${x}${y}`] = true;
@@ -33,7 +41,7 @@ const Ship = (length, horizontal = true) => {
 		}
 		return true;
 	};
-	return { hit, isSunk, setPosition, length };
+	return { hit, isSunk, setPosition, length,getOrigin };
 };
 
 module.exports = Ship;

@@ -12,12 +12,25 @@ test('length should be correctly set', () => {
     expect(testShipHorizontal.length).toBe(3);
     expect(testShipVertical.length).toBe(3);
  });
+test('should throw error if origin is not set', () => { 
+    expect(()=>{
+        testShipHorizontal.getOrigin()
+    }).toThrow('Position has not been set');
 
+    expect(()=>{
+        testShipVertical.getOrigin()
+    }).toThrow('Position has not been set');
+ })
 test('should set Position correctly', () => { 
     expect(testShipHorizontal.setPosition(1,1)).toBe(true);
     expect(testShipVertical.setPosition(1,1)).toBe(true);
  });
 
+test('should return position once set', () => { 
+    expect(testShipHorizontal.getOrigin()).toEqual({x:1,y:1});
+    expect(testShipVertical.getOrigin()).toEqual({x:1,y:1});
+
+ })
 test('should throw Error if grid exceeds in both directions',()=>{
     expect(()=>{
         testShipHorizontal.setPosition(9,1)
