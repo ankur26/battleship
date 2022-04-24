@@ -1,8 +1,12 @@
 const Ship = (length, horizontal = true) => {
 	// let shipLength = length;
 	let position = {}; 
+
+    function checkValidity(x,y,length,orientation){
+        return (x + length >= 10 && orientation) || (y + length >= 10 && !orientation)
+    }
 	const setPosition = (x, y) => {
-		if ((x + length >= 10 && horizontal) || (y + length >= 10 && !horizontal)) {
+		if (checkValidity(x,y,length,horizontal)) {
 			throw new Error('Position exceeds grid size');
 
 		}
@@ -41,6 +45,13 @@ const Ship = (length, horizontal = true) => {
 		}
 		return true;
 	};
+    // const overlap = (shipX,shipY,shipLength,orientation) => {
+    //     if(checkValidity(shipX,shipY,shipLength,orientation)){
+    //         throw new Error('Invalid Input');
+    //     }else{
+    //         if(orientation && (shipX ))
+    //     }
+    // }
 	return { hit, isSunk, setPosition, length,getOrigin };
 };
 
