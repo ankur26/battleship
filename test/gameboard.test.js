@@ -24,7 +24,12 @@ test('should place first ship with length 5', () => {
 	expect(game.placeShip(0, 0, 5)).toEqual({ valid: true, coordinates: [] });
 });
 
-test('should give a false validity for the next ship', () => {
+test('should throw error if length of ship is 0', () => {
+	expect(() => {
+		game.placeShip(1, 2, 0);
+	}).toThrow('Length is invalid');
+});
+test('should give a false validity and overlapped coordiates for the incorrectly placed ship', () => {
 	expect(game.placeShip(0, 0, 4)).toEqual({ valid: false, coordinates: [ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ] ] });
 });
 
@@ -32,7 +37,7 @@ test('give a correct validity if lower level ship is placed correctly', () => {
 	expect(game.placeShip(0, 1, 4)).toEqual({ valid: true, coordinates: [] });
 });
 
-test('should vertical placement as well', () => {
+test('should throw invalid error overlap between horizontal and vertical ships as well.', () => {
 	game.changeOrientation();
 	expect(game.getOrientation()).toBe(false);
 
@@ -40,5 +45,9 @@ test('should vertical placement as well', () => {
 });
 
 test('should add vertical ship after orientation change', () => {
-	expect(game.placeShip(4,1,3)).toEqual({valid:true,coordinates:[]});
+	expect(game.placeShip(4, 1, 3)).toEqual({ valid: true, coordinates: [] });
 });
+
+// re-initializing for attack testing
+game = GameBoard();
+

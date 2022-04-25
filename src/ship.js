@@ -61,13 +61,6 @@ const Ship = (length, horizontal = true) => {
 		}
 		return true;
 	};
-    // const overlap = (shipX,shipY,shipLength,orientation) => {
-    //     if(checkValidity(shipX,shipY,shipLength,orientation)){
-    //         throw new Error('Invalid Input');
-    //     }else{
-    //         if(orientation && (shipX ))
-    //     }
-    // }
 	return { hit, isSunk, setPosition, length,getOrigin, getCoordinates };
 };
 
