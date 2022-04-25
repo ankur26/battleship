@@ -30,6 +30,22 @@ const Ship = (length, horizontal = true) => {
             throw new Error('Position has not been set');
         }
     }
+	const getCoordinates = () => {
+		if(position.hasOwnProperty('origin')){
+			let coordinates = [];
+			let i = 0;
+			let {x,y} = position['origin'];
+			while(i<length){
+				coordinates.push([x,y]);
+				x+=1 && horizontal;
+				y+=1 && !horizontal;
+				i++;
+			}
+			return coordinates
+		}else{
+			throw new Error('Position has not been set');
+		}
+	}
 	const hit = (x, y) => {
 		if (position.hasOwnProperty(`${x}${y}`)) {
 			position[`${x}${y}`] = true;
@@ -52,7 +68,7 @@ const Ship = (length, horizontal = true) => {
     //         if(orientation && (shipX ))
     //     }
     // }
-	return { hit, isSunk, setPosition, length,getOrigin };
+	return { hit, isSunk, setPosition, length,getOrigin, getCoordinates };
 };
 
 module.exports = Ship;

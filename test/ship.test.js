@@ -29,8 +29,14 @@ test('should set Position correctly', () => {
 test('should return position once set', () => { 
     expect(testShipHorizontal.getOrigin()).toEqual({x:1,y:1});
     expect(testShipVertical.getOrigin()).toEqual({x:1,y:1});
+ });
+test('should return coordinates as specified', () => { 
+    expect(testShipHorizontal.getCoordinates()[0]).toEqual([1,1]);
+    expect(testShipHorizontal.getCoordinates()[2]).toEqual([3,1]);
+    expect(testShipVertical.getCoordinates()[0]).toEqual([1,1]);
+    expect(testShipVertical.getCoordinates()[2]).toEqual([1,3]);
 
- })
+ });
 test('should throw Error if grid exceeds in both directions',()=>{
     expect(()=>{
         testShipHorizontal.setPosition(9,1)
