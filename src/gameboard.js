@@ -1,7 +1,7 @@
 const Ship = require('./ship');
 
 const GameBoard = () => {
-    /* orientation : true represents horizontal false represents vertical*/
+	/* orientation : true represents horizontal false represents vertical*/
 	let orientation = true;
 	let board = (() => {
 		let output = {};
@@ -16,29 +16,31 @@ const GameBoard = () => {
 
 	let ships = [];
 
-	const changeOrientation = () => {orientation = !orientation};
+	const changeOrientation = () => {
+		orientation = !orientation;
+	};
 	const getOrientation = () => orientation;
 
 	const overlap = (ship) => {
-	    let coordinates = [];
-	    if (ships.length === 0 ){
-	        return {valid:true,coordinates};
-	    }
+		let coordinates = [];
+		if (ships.length === 0) {
+			return { valid: true, coordinates };
+		}
 
-	    ship.getCoordinates().forEach(coordinate =>{
-            let [x,y] =  coordinate;
-	        if(board[x][y].occupied){
-                coordinates.push(coordinate);
-	        }
-	    });
-        return {valid:coordinates.length === 0,coordinates}
-	}
+		ship.getCoordinates().forEach((coordinate) => {
+			let [ x, y ] = coordinate;
+			if (board[x][y].occupied) {
+				coordinates.push(coordinate);
+			}
+		});
+		return { valid: coordinates.length === 0, coordinates };
+	};
 	const updateBoard = (ship) => {
 		try {
-			ship.getCoordinates().forEach(coordinate => {
-                let [ x, y ] = coordinate;
+			ship.getCoordinates().forEach((coordinate) => {
+				let [ x, y ] = coordinate;
 				board[x][y].occupied = true;
-            });
+			});
 			return true;
 		} catch (error) {
 			console.log(error);
@@ -47,7 +49,7 @@ const GameBoard = () => {
 	};
 	const placeShip = (x, y, length) => {
 		try {
-			if(length <=  0){
+			if (length <= 0) {
 				throw new Error('Length is invalid');
 			}
 			let ship = Ship(length, orientation);
@@ -62,33 +64,35 @@ const GameBoard = () => {
 			throw new Error(e);
 		}
 	};
-	const registerHitAndCheckGameOver = (x,y) =>{
-		ships.forEach(ship=>{
-			ship.hit(x,y);
+	const registerHitAndCheckGameOver = (x, y) => {
+		let hit = false;
+		let gameOver = true;
+		ships.forEach((ship) => {
+			if (ship.hit(x, y)) {
+				hit = true;
+			}
 		});
 		// let gameOver = false;
-		for (ship in ships){
-			if(!ship.isSunk()){
-				return false;
+		ships.forEach((ship) => {
+			if (!ship.isSunk()) {
+				gameOver = false;
 			}
-		}
-		return true;
-	}
-	const receiveAttack  = (x,y) => {
-		if(x>9 || y>9 ){
+		});
+		return { hit, gameOver };
+	};
+	const receiveAttack = (x, y) => {
+		if (x > 9 || y > 9 || x < 0 || y < 0) {
 			throw new Error('Invalid coordinates ');
-		}
-		else{
-			if(!board[x][y].attacked){
+		} else {
+			if (!board[x][y].attacked) {
 				board[x][y].attacked = true;
-				return registerHitAndCheckGameOver(x,y);
-			}
-			else{
-				throw new Error('grid was already attacked');
+				return registerHitAndCheckGameOver(x, y);
+			} else {
+				throw new Error('Grid was already attacked');
 			}
 		}
-	}
-    return {getOrientation,changeOrientation,placeShip,receiveAttack};
+	};
+	return { getOrientation, changeOrientation, placeShip, receiveAttack };
 };
 
 module.exports = GameBoard;
