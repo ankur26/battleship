@@ -3,6 +3,7 @@ const Ship = require('./ship');
 const GameBoard = () => {
 	/* orientation : true represents horizontal false represents vertical*/
 	let orientation = true;
+	let gameOver = false;
 	let board = (() => {
 		let output = {};
 		for (let i = 0; i < 10; i++) {
@@ -52,6 +53,9 @@ const GameBoard = () => {
 			if (length <= 0) {
 				throw new Error('Length is invalid');
 			}
+			if(gameOver){
+				throw new Error('Game over');
+			}
 			let ship = Ship(length, orientation);
 			ship.setPosition(x, y);
 			let { valid, coordinates } = overlap(ship);
@@ -66,7 +70,10 @@ const GameBoard = () => {
 	};
 	const registerHitAndCheckGameOver = (x, y) => {
 		let hit = false;
-		let gameOver = true;
+		if(gameOver){
+			throw new Error('Game is potentially over');
+		}
+		gameOver = true;
 		ships.forEach((ship) => {
 			if (ship.hit(x, y)) {
 				hit = true;

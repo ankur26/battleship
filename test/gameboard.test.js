@@ -105,3 +105,16 @@ test('should report game over after finishing off all ships', () => {
 	}
 	expect(game.receiveAttack(4,3)).toEqual({hit:true,gameOver:true});
 });
+
+test('should not allow ship placement after game is over',()=>{
+
+	expect(()=>{
+		game.placeShip(8,2,2);
+	}).toThrow('Game over');
+});
+
+test('should not allow attacks after game over', () => { 
+	expect(()=>{
+		game.receiveAttack(8,2);
+	}).toThrow('Game is potentially over');
+ })
