@@ -9,4 +9,3 @@ The objective of this project is to implement a battleship game using Test Drive
 * Mocking functions and why it's needed.
 
 ### This is a work in progress.
-
