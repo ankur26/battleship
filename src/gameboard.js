@@ -8,6 +8,7 @@ const gameboard = () => {
     }
     grid.push(row);
   }
+  
   const getCellState = (row, col) => {
     if (row && col) {
       if (typeof row === "number" && typeof col === "number") {
