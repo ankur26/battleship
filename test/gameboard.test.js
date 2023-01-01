@@ -29,26 +29,54 @@ test("should be able to place a ship at another place vertically", () => {
   expect(g.placeShip(4, 4, false, 4)).toBe(true);
 });
 
-test('should correctly check overlap across horizontal axes',()=>{
-  for(let i = 4; i<8;i++)
-  expect(g.checkOverlap(i,4,true,4)).toBe(true)
+test("should correctly check overlap across horizontal axes", () => {
+  for (let i = 4; i < 8; i++) expect(g.checkOverlap(i, 4, true, 4)).toBe(true);
 });
 
-test('should correctly check for overlap for both orientations', () => { 
+test("should correctly check for overlap for both orientations", () => {
   //This will test other rows than the actual placed ships
   `
   Currently there are two ships positioned as mentioned below
   0,0 to 0,5 - we will test for overlap for columns 5-9 in the same row 
   4,4 to 8,4 - we will test for overlap for rows 0-3 and 9 in the same column.
   This also manages to test multi length ships.
-  `
-  for(let i = 5; i< 8; i++){
-    expect(g.checkOverlap(0,i,true,2)).toBe(false)
+  `;
+  for (let i = 5; i < 8; i++) {
+    expect(g.checkOverlap(0, i, true, 2)).toBe(false);
   }
-  for(let i = 1; i<2;i++){
-    console.log(g.getCellState(i,4))
-    expect(g.checkOverlap(i,4,false,2)).toBe(false)
+  for (let i = 1; i < 2; i++) {
+    // console.log(g.getCellState(i,4))
+    expect(g.checkOverlap(i, 4, false, 2)).toBe(false);
   }
-  expect(g.checkOverlap(8,4,false,2)).toBe(false)
+  expect(g.checkOverlap(8, 4, false, 2)).toBe(false);
+});
+
+test("should receive an attack correctly", () => {
+  expect(g.receiveAttack(0, 0)).toBe(true);
+});
+
+test("should fail on another attack on the same place", () => {
+  expect(g.receiveAttack(0, 0)).toBe(false);
+});
+
+test("should mark missed on the cell after missing a hit", () => {
+  expect(g.receiveAttack(0, 7)).toBe(false);
+  expect(g.getCellState(0, 7).missed).toBe(true);
+  expect(g.getCellState(0, 7).shipPlaced).toBe(false);
+});
+
+test("should not report game over after only one hit", () => {
+  expect(g.areAllShipsSunk()).toBe(false);
+});
+
+//Get all hits in 
+test('should register hits without all ships being sunk', () => { 
+  for(let i=1;i<5;i++){
+    expect(g.receiveAttack(0,i)).toBe(true);
+    expect(g.receiveAttack(i+3,4)).toBe(true);
+  }
  })
 
+test('should report that all ships are sunk after hits', () => { 
+  expect(g.areAllShipsSunk()).toBe(true)
+ })

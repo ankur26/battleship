@@ -1,8 +1,8 @@
 import ship from "./ship";
 
 const gameboard = () => {
-  const grid = [];
-  const ships = [];
+  let grid = [];
+  let ships = [];
   for (let i = 0; i < 10; i++) {
     let row = [];
     for (let j = 0; j < 10; j++) {
@@ -63,7 +63,38 @@ const gameboard = () => {
     return false;
   };
 
-  return { getCellState, checkOverlap, placeShip };
+  const receiveAttack = (row, col) => {
+    if (typeof row === "number" && typeof col === "number") {
+  
+    if (grid[row][col]) {
+      // console.log("found object");
+      if (grid[row][col].shipPlaced) {
+        // console.log("found ship");
+        if (!grid[row][col].hit) {
+          // console.log("took hit");
+          ships[grid[row][col].ship_id].hit();
+          grid[row][col].hit = true;
+          return true;
+        }
+        return false;
+      } else {
+        grid[row][col].missed = true;
+        return false;
+      }
+    }
+    }
+  };
+
+  const areAllShipsSunk = () => {
+    for (let i = 0; i < ships.length; i++) {
+      if(!ships[i].isSunk()){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return { getCellState, checkOverlap, placeShip, receiveAttack, areAllShipsSunk };
 };
 
 export default gameboard;
