@@ -1,4 +1,5 @@
-import ship from "./src/ship"
-document.querySelector('#app').innerHTML = `
-<h1> This is a vite based JS app </h1>
-`
+import DOMController from "./src/DOMController";
+import './style.css';
+
+const d = DOMController();
+d.initialize();
