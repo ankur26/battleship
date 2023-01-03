@@ -118,7 +118,7 @@ const gameboard = () => {
         } else {
           grid[row][col].hit = true;
           grid[row][col].missed = true;
-          return false;
+          return true;
         }
       }
     }

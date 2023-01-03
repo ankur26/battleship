@@ -32,7 +32,23 @@ main{
   display: inline-block;
   margin:0;
   padding: 0;
+  transition: 0.2s ease-in-out;
 }
-.red{
+.highlight{
+  background-color: aquamarine;
+}
+.none{
+  display: none;
+}
+.placed{
+  background-color: lightskyblue;
+}
+.pending{
+  background-color: lightcoral;
+}
+.hit{
   background-color: red;
+}
+.missed{
+  background-color: yellow;
 }
