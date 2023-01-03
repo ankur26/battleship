@@ -65,7 +65,7 @@ const DOMController = () => {
     }
     orientationToggle.addEventListener("click", changeOrientation);
     updateEventListeners(shipObjectArray[shipsInitialized].size);
-    notifier.textContent = `Place your ${shipObjectArray[shipsInitialized].name} `;
+    notifier.textContent = `Place your ${shipObjectArray[shipsInitialized].name} on the left grid`;
   };
 
   function removeEventsAndHighlights() {
@@ -145,7 +145,6 @@ const DOMController = () => {
     console.log("updating the boards");
     // console.log(playerGridState);
     // console.log(computerGridState);
-
     for (const cell of computerGridDiv.children) {
       let { row, column, p_r = +row, p_c = +column } = cell.dataset;
       let cell_state = computerGrid.getCellState(p_r, p_c);
@@ -164,9 +163,11 @@ const DOMController = () => {
     for (const cell of playerGridDiv.children) {
       let { row, column, p_r = +row, p_c = +column } = cell.dataset;
       let cell_state = playerGrid.getCellState(p_r, p_c);
+      // console.log(cell_state)
       // console.log(computerGridState[p_r][p_c].hit)
       // console.log(p_r,p_c,cell_state.hit)
       if (cell_state.hit) {
+        console.log(cell_state,playerGrid.getCellState(p_r,p_c),p_r,p_c)
         cell.classList.add("attacked");
       }
       if (cell_state.shipPlaced && cell_state.hit) {
@@ -199,7 +200,7 @@ const DOMController = () => {
       }
       //Computer's turn starts here
       let [c_r, c_c] = generateGridValue();
-      console.log(`Computer is attacking ${c_r} ${c_r}`);
+      console.log(`Computer is attacking ${c_r} ${c_c}`);
 
       while (!playerGrid.receiveAttack(c_r, c_c)) {
         console.log("Found that it was already attacked");
